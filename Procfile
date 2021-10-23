@@ -1,1 +1,1 @@
-web: gunicorn {{ rec_sys }}.wsgi
+web: gunicorn rec_sys.wsgi
