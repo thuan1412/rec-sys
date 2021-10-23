@@ -1,1 +1,1 @@
-web: gunicorn rec_sys.wsgi
+web: python manage.py collectstatic --no-input; gunicorn rec_sys.wsgi
