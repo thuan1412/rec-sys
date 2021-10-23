@@ -1,1 +1,1 @@
-web: python manage.py collectstatic --no-input; gunicorn rec_sys.wsgi
+web: python manage.py collectstatic --no-input; python manage.py migrate; gunicorn rec_sys.wsgi
