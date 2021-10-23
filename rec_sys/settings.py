@@ -91,11 +91,11 @@ WSGI_APPLICATION = 'rec_sys.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ['PGDATABASE'] or 'rec_sys',
-        'USER': os.environ['PGUSER'] or 'postgres',
-        'PASSWORD': os.environ['PGPASSWORD'] or '1',
-        'HOST': os.environ['PGHOST'] or 'localhost',
-        'PORT': os.environ['PGPORT'] or '5432'
+        'NAME': os.environ.get('PGDATABASE') or 'rec_sys',
+        'USER': os.environ.get('PGUSER') or 'postgres',
+        'PASSWORD': os.environ.get('PGPASSWORD') or '1',
+        'HOST': os.environ.get('PGHOST') or 'localhost',
+        'PORT': os.environ.get('PGPORT') or '5432'
     }
 }
 
