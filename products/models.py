@@ -6,6 +6,7 @@ class Product(models.Model):
     """Product model"""
     name = models.CharField(max_length=100)
     price = models.FloatField()
+    # TODO: array image
     image = models.ImageField(upload_to='uploads')
 
     @property

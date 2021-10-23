@@ -10,6 +10,7 @@ class ProductAdmin(admin.ModelAdmin):
 
     def image_tag(self, obj):
         return obj.image_tag
+
     image_tag.allow_tags = True
 
     search_fields = ['name']

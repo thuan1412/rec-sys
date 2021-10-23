@@ -1,0 +1,40 @@
+a {
+  color: gray;
+}
+
+html {
+  max-width: 70ch;
+  padding: 1.5rem;
+  margin: auto;
+  line-height: 1.75rem;
+  font-size: 1.5rem;
+}
+
+li {
+  text-decoration: none;
+  list-style: none;
+}
+
+.products-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-short {
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+.product-short-image {
+  height: 200px;
+  width: 150px;
+}
+
+.product-short-metadata {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.product-short-metadata .name {
+  font-size: 20px;
+}

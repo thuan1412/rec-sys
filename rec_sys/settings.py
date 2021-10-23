@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,13 +33,24 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'products.apps.ProductsConfig',
+    'users.apps.UsersConfig',
+    'recsys.apps.RecsysConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration'
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -50,6 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 ROOT_URLCONF = 'rec_sys.urls'
 
 TEMPLATES = [
@@ -122,6 +135,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static/"),
+)
 STATIC_URL = '/static/'
 
 # Default primary key field type
