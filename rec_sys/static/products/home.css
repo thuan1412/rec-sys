@@ -36,5 +36,52 @@ li {
 }
 
 .product-short-metadata .name {
-  font-size: 20px;
+  font-size: 18px;
+}
+
+.product-detail .image {
+  width: 150px;
+  height: 250px;
+}
+
+.product {
+  display: flex;
+}
+
+.product-detail .product .left-side {
+  width: 30%;
+}
+
+.product-detail .product .right-side {
+  width: 70%;
+}
+
+.product-detail .description {
+  border-top: black;
+  border-top-width: 2px;
+  border-top-style: dotted;
+  font-size: 18px;
+  margin-top: 15px;
+}
+
+.product-detail .price-value {
+  color: yellowgreen;
+}
+
+.product-detail .price-text {
+  font-size: 18px;
+}
+
+.product-detail .add-to-cart {
+  width: 200px;
+  height: 30px;
+  border-radius: 15px;
+  line-height: 30px;
+  cursor: pointer;
+  background-color: yellow;
+  user-select: none;
+  font-size: 18px;
+  text-align: center;
+  vertical-align: middle;
+  color: chocolate;
 }
