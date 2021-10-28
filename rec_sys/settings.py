@@ -28,7 +28,9 @@ SECRET_KEY = 'django-insecure-*kd+*_)34vw((%c)e@(ub=$h(u*&abd=o*hbgr-g-ko0jlk12_
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
-                 'rec-sys-1.herokuapp.com', 'rec-sys-production.up.railway.app']
+                 'rec-sys-1.herokuapp.com',
+                 'rec-sys-production.up.railway.app',
+                 'fbba853e9a0f.up.railway.app']
 
 
 # Application definition
