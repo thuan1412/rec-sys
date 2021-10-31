@@ -1,5 +1,7 @@
+{% load env_extras %}
+
 <a class="product-short" href="/{{ product.id }}">
-  <img class="product-short-image" src="uploads/{{ product.image }}" alt="" />
+  <img class="product-short-image" src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}" alt="" />
   <div class="product-short-metadata">
     <span class="name">{{ product.name }}</span> <br />
   </div>

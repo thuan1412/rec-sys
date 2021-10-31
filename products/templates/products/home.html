@@ -1,28 +1,28 @@
-<!DOCTYPE html>
 {% load static %}
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'products/home.css' %}"
-    />
-    <title>Recommend System</title>
-  </head>
-  <body>
-    <div class="container">
-      {% if products %}
-      <div class="products-container">
-        {% for product in products %} 
-          {% include "products/product-short.html" with product=product %}
-        {% endfor %}
-      </div>
-      {% else %}
-      <p>No products are available.</p>
-      {% endif %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'products/home.css' %}"
+  />
+  <script src="{% static 'products/home.js' %}"></script>
+  <title>Recommend System</title>
+</head>
+
+{% block content %}
+  <div class="container">
+    {% if products %}
+    <div class="products-container">
+      {% for product in products %} 
+        {% include "products/product-short.html" with product=product %} 
+      {% endfor %}
     </div>
-  </body>
-</html>
+    {% else %}
+    <p>No products are available.</p>
+    {% endif %}
+  </div>
+{% endblock %}
