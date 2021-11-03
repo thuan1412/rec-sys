@@ -1,8 +1,30 @@
 {% load env_extras %}
 
-<a class="product-short" href="/{{ product.id }}">
-  <img class="product-short-image" src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}" alt="" />
-  <div class="product-short-metadata">
-    <span class="name">{{ product.name }}</span> <br />
+<div class="col-lg-4 col-md-6 col-sm-10 offset-md-0 pt-4">
+  <div class="card">
+    <img 
+      class="card-img-top" 
+      src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}"
+      style="height: 200px; width: 100%; display: block;object-fit:contain;"
+    />
+    <div class="card-body">
+      <a 
+        class="font-weight-bold pt-1" 
+        href="/{{ product.id }}" 
+        style="text-decoration:none;color:black;text-transform:capitalize;"
+      >
+        {{ product.name }}
+      </a>
+        <!-- <div class="text-muted description">Space for small product description</div> -->
+        <div class="d-flex align-items-center product">
+          <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="fas fa-star"></span> <span class="far fa-star"></span>
+        </div>
+        <div class="d-flex align-items-center justify-content-between pt-3">
+            <div class="d-flex flex-column">
+              <div class="h6 font-weight-bold">{{ product.price }} VNĐ</div>
+            </div>
+            <div class="btn btn-primary">Buy now</div>
+        </div>
+    </div>
   </div>
-</a>
+</div>

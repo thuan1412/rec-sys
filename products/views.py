@@ -16,7 +16,8 @@ def homepage(request):
     products = Product.objects.all()
 
     context = {
-        'products': products
+        'products': products,
+        'most_viewed': products[:3],
     }
 
     return render(request, 'products/home.html', context)

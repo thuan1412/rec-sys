@@ -1,36 +1,47 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+
 {% load static %}
-<html lang="en">
+{% load env_extras %}
+
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block style %}
     <link
       rel="stylesheet"
       type="text/css"
       href="{% static 'products/home.css' %}"
     />
+    {% endblock %}
     <title>Product</title>
   </head>
+  
+{% block title %}
+Recommend System
+{% endblock %}
+
+{% block content %}
   <body>
     <div class="container">
       <div class="product-detail">
-        <div class="product">
-          <div class="left-side">
-            <img
-              class="image"
-              src="uploads/{{ product.image }}"
-              alt="{{product.name}}"
-            />
+        3h2>{{ product.name }}</h2>
+        <div class="product row">
+          <div class="left-side col-6">
+          <img 
+            class="image"
+            src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}"
+            alt=""
+          />
           </div>
-          <div class="right-side">
+          <div class="right-side col-6">
             <div class="name">
-              <span class="price-text price-value">{{ product.price }} </span>
-
+              <span>Giá sản phẩm:</span>
+              <span class="price-text price-value"> {{ product.price }} </span>
               <span class="price-text"> VND</span> <br />
               <span class="name">Tên sản phẩm: {{ product.name }}</span> <br />
             </div>
-            <div class="add-to-cart"><span> Thêm vào giỏ hàng </span></div>
+            <div class="add-to-cart mt-3"><span> Thêm vào giỏ hàng </span></div>
           </div>
         </div>
         <div class="description">
@@ -47,4 +58,4 @@
       </div>
     </div>
   </body>
-</html>
+{% endblock %}
