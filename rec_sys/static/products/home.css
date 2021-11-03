@@ -2,14 +2,6 @@ a {
   color: gray;
 }
 
-html {
-  max-width: 70ch;
-  padding: 1.5rem;
-  margin: auto;
-  line-height: 1.75rem;
-  font-size: 1.5rem;
-}
-
 li {
   text-decoration: none;
   list-style: none;
