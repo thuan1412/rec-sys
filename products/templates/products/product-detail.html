@@ -54,23 +54,23 @@ Recommend System
         <div class="col-md-7">
             <div class="card">
                 <div class="d-flex flex-row align-items-center">
-                    <div class="p-ratings"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div> <span class="ml-1">5.0</span>
+                    <!-- <div class="p-ratings"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> </div> <span class="ml-1">5.0</span> -->
                 </div>
-                <div class="about"> <span class="font-weight-bold">IKEA x HAY Ypperlig Collection </span>
-                    <h4 class="font-weight-bold">$3,444</h4>
+                <div class="about"> <span class="font-weight-bold text-capitalize">{{ product.name }}</span>
+                  <h4 class="font-weight-bold">{{ product.price }} VND</h4>
                 </div>
                 <div class="buttons"> <button class="btn btn-outline-warning btn-long cart">Add to Cart</button> <button class="btn btn-warning btn-long buy">Buy it Now</button> <button class="btn btn-light wishlist"> <i class="fa fa-heart"></i> </button> </div>
                 <hr>
                 <div class="product-description">
                     <div class="mt-2"> <span class="font-weight-bold">Description</span>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                      <p>{{ product.description }}</p>
                         <div class="bullets">
-                            <div class="d-flex align-items-center"> <span class="dot"></span> <span class="bullet-text">Best in Quality</span> </div>
-                            <div class="d-flex align-items-center"> <span class="dot"></span> <span class="bullet-text">Anti-creak joinery</span> </div>
-                            <div class="d-flex align-items-center"> <span class="dot"></span> <span class="bullet-text">Sturdy laminate surfaces</span> </div>
-                            <div class="d-flex align-items-center"> <span class="dot"></span> <span class="bullet-text">Relocation friendly design</span> </div>
-                            <div class="d-flex align-items-center"> <span class="dot"></span> <span class="bullet-text">High gloss, high style</span> </div>
-                            <div class="d-flex align-items-center"> <span class="dot"></span> <span class="bullet-text">Easy-access hydraulic storage</span> </div>
+                          {% for property in product.properties %}
+                            <div class="d-flex align-items-center"> 
+                              <span class="dot"></span>
+                              <span class="bullet-text">{{ property }}</span>
+                            </div>
+                          {% endfor %}
                         </div>
                     </div>
                 </div>
