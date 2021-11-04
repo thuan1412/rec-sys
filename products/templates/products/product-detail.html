@@ -35,17 +35,17 @@ Recommend System
             <div class="card">
                 <div class="demo">
                     <ul id="lightSlider">
-                        <li data-thumb="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}"> 
-                          <img src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}" /> 
+                        <li data-thumb="{{ product.get_image_url }}"> 
+                          <img src="{{ product.get_image_url }}" /> 
                         </li>
-                        <li data-thumb="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}"> 
-                          <img src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}" /> 
+                        <li data-thumb="{{ product.get_image_url }}"> 
+                          <img src="{{ product.get_image_url }}" /> 
                         </li>
-                        <li data-thumb="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}"> 
-                          <img src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}" /> 
+                        <li data-thumb="{{ product.get_image_url }}"> 
+                          <img src="{{ product.get_image_url }}" /> 
                         </li>
-                        <li data-thumb="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}"> 
-                          <img src="https://{% env_extras 'AWS_STORAGE_BUCKET_NAME' %}.s3.ap-southeast-1.amazonaws.com/media/{{ product.image }}" /> 
+                        <li data-thumb="{{ product.get_image_url }}"> 
+                          <img src="{{ product.get_image_url }}" /> 
                         </li>
                     </ul>
                 </div>

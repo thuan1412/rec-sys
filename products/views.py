@@ -16,7 +16,7 @@ def homepage(request):
     products = Product.objects.all()
 
     context = {
-        'products': products,
+        'products': products[:20],
         'most_viewed': products[:3],
     }
 
