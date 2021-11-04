@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.html import format_html
 from django.conf import settings
+from django_better_admin_arrayfield.models.fields import ArrayField
 
 from storages.backends.s3boto3 import S3Boto3Storage
 
@@ -14,6 +15,14 @@ class Product(models.Model):
     price = models.FloatField()
     # TODO: array image
     image = models.FileField(storage=PublicMediaStorage)
+    quantity = models.IntegerField(default=0)
+    description = models.TextField(blank=True)
+    properties = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+
+    @property
+    def get_description(self):
+        return self.description[:100]
+
 
     @property
     def image_tag(self):

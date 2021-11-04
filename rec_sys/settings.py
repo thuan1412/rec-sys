@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'rest_auth.registration',
     'storages',
+    'django_better_admin_arrayfield'
 ]
 
 SITE_ID = 1
