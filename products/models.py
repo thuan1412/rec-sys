@@ -17,7 +17,7 @@ class Product(models.Model):
     image = models.FileField(storage=PublicMediaStorage)
     quantity = models.IntegerField(default=0)
     description = models.TextField(blank=True)
-    properties = ArrayField(models.CharField(max_length=200), blank=True, null=True)
+    properties = ArrayField(models.CharField(max_length=200), default=[])
 
     @property
     def get_description(self):
