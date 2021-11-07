@@ -14,11 +14,14 @@ def detail(request):
 def homepage(request):
     # TODO: product data here
     products = Product.objects.all()
+    user = request.user
 
     context = {
         'products': products[:20],
         'most_viewed': products[:3],
+        'user': user
     }
+    print(user.id)
 
     return render(request, 'products/home.html', context)
 
@@ -42,3 +45,4 @@ def productDetail(request, num):
     RecSysService.increase_view_count(1, 1)
 
     return render(request, 'products/product-detail.html', context)
+
