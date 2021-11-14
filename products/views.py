@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from recsys.services import RecSysService
+from recsys.tasks import retrain_model
+
 import uuid
 from .models import Product
 
@@ -41,8 +43,13 @@ def productDetail(request, num):
         rec_session_id = str(uuid.uuid4())
         session['rec_session_id'] = rec_session_id
 
-    print(session.items())
-    RecSysService.increase_view_count(1, 1)
+    user = request.user
+    product = Product.objects.get(id=num)
+    
+    print(user, product)
+    if not product:
+        return HttpResponse("Product not found")
+    RecSysService.increase_view_count(user, product)
 
     return render(request, 'products/product-detail.html', context)
 

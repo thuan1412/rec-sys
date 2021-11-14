@@ -15,6 +15,7 @@ defusedxml==0.7.1
 Django==3.2.7
 django-allauth==0.45.0
 django-better-admin-arrayfield==1.4.2
+django-compat==1.0.15
 django-rest-auth==0.9.5
 django-rest-framework==0.1.0
 django-storages==1.12.3
