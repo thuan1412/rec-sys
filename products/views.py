@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from recsys.services import RecSysService
-from recsys.tasks import retrain_model
 
 import uuid
 from .models import Product
