@@ -1,5 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views import generic
+from django.urls import reverse_lazy
+from django.contrib.auth.forms import UserCreationForm
 
 from recsys.services import RecSysService
 
@@ -35,7 +38,7 @@ def productDetail(request, num):
 
     session = request.session
     rec_session_id = None
-    
+
     try:
         rec_session_id = session['rec_session_id']
     except:
@@ -44,7 +47,7 @@ def productDetail(request, num):
 
     user = request.user
     product = Product.objects.get(id=num)
-    
+
     print(user, product)
     if not product:
         return HttpResponse("Product not found")
@@ -52,3 +55,8 @@ def productDetail(request, num):
 
     return render(request, 'products/product-detail.html', context)
 
+
+class SignUpView(generic.CreateView):
+    form_class = UserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'products/signup.html'

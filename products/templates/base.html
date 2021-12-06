@@ -25,9 +25,10 @@
         <div class="text-white pointer">
           <i class="fa fa-user fa-lg mr-1" ></i>
           <span class="text" style="font-size: 18px;">{{ user }}</span>
+          <span><a href="{% url 'logout' %}">Log Out</a></span>
         </div>
       {% else %}
-        <a class="btn btn-outline-success my-2 my-sm-0" href="/login">Đăng kí/ Đăng nhập</a>
+        <a class="btn btn-outline-success my-2 my-sm-0" href="/accounts/login">Đăng kí/ Đăng nhập</a>
       {% endif %}
     </nav>
   </div>

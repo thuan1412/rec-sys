@@ -173,3 +173,4 @@ AWS_PUBLIC_MEDIA_LOCATION='media'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
