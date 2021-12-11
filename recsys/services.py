@@ -1,10 +1,12 @@
-from django.conf.urls.static import static
-from recsys.models import ProductRating, UserProductView
+import csv
 from collections import defaultdict
 
 import surprise
-from surprise import Dataset, Reader, KNNBasic
-import csv
+from django.conf.urls.static import static
+from surprise import Dataset, KNNBasic, Reader
+
+from recsys.models import ProductRating, UserProductView
+
 
 class RecSysService(object):
     @staticmethod
@@ -13,12 +15,13 @@ class RecSysService(object):
         Increase the view count of a product by 1.
         """
         try:
-            productView = UserProductView.objects.get(user_id=user, product_id=product)
+            productView = UserProductView.objects.get(
+                user_id=user, product_id=product)
         except UserProductView.DoesNotExist:
             productView = UserProductView()
             productView.user_id = user
             productView.product_id = product
-          
+
         productView.count += 1
         productView.save()
 
@@ -26,7 +29,6 @@ class RecSysService(object):
     def rating_product(self, rating):
         self.rating = rating
         self.save()
-
 
     @staticmethod
     def export_rating_to_csv():
@@ -36,13 +38,30 @@ class RecSysService(object):
         fields = ['user_id', 'product_id', 'rating']
         rows = []
         for rating in ProductRating.objects.all():
-            rows.append([rating.user_id.id, rating.product_id.id, rating.rating])
+            rows.append(
+                [rating.user_id.id, rating.product_id.id, rating.rating])
         # write rows to csv file
         with open('ratings.csv', 'w') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(fields)
             writer.writerows(rows)
-        
+
+    @staticmethod
+    def export_view_to_csv():
+        """
+        Export the view data to a csv file.
+        """
+        fields = ['user_id', 'product_id', 'count']
+        rows = []
+        for view in UserProductView.objects.all():
+            rows.append([view.user_id.id, view.product_id.id, view.count])
+        # write rows to csv file
+        with open('views.csv', 'w') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(fields)
+            writer.writerows(rows)
+
+
 def get_top_n(predictions, n=10):
     """Return the top-N recommendation for each user from a set of predictions.
 
@@ -69,6 +88,7 @@ def get_top_n(predictions, n=10):
 
     return top_n
 
+
 class RecSysModel:
     def __init__(self):
         if RecSysModel.__instance != None:
@@ -77,6 +97,7 @@ class RecSysModel:
             self.rating_model = None
             RecSysModel.__instance = self
     __instance = None
+
     @staticmethod
     def instance():
         if RecSysModel.__instance is None:
@@ -85,8 +106,9 @@ class RecSysModel:
 
     # train by rating
     def train(self):
-        rating_file = "ratings.csv"
-        rating_reader = Reader(line_format="user item rating", sep=',', skip_lines=1)
+        rating_file = "views.csv"
+        rating_reader = Reader(
+            line_format="user item rating", sep=',', skip_lines=1)
         data = Dataset.load_from_file(rating_file, rating_reader)
         rating_training_set = data.build_full_trainset()
         rating_algo = KNNBasic()
@@ -95,9 +117,8 @@ class RecSysModel:
         # predict rating for all pairs (u, i) that are NOT in the training set
         rating_test_set = rating_training_set.build_anti_testset()
         self.predictions = rating_algo.test(rating_test_set)
-        # top 10 item 
+        # top 10 item
         self.top_n = get_top_n(self.predictions, 10)
-        print(self.top_n)
 
     # train by viewing
     def train_by_view(self):
@@ -110,6 +131,7 @@ class RecSysModel:
         """
         return top-10 recommendations for user `user_id`
         """
-        if not self.top_n:
+        user_id = str(user_id)
+        if not self.top_n and not self.top_n.get(user_id):
             return []
-        return self.top_n[user_id]
+        return list(map(lambda x: int(x[0]), self.top_n[user_id]))

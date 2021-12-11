@@ -1,12 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views import generic
-from django.urls import reverse_lazy
-from django.contrib.auth.forms import UserCreationForm
-
-from recsys.services import RecSysService
-
 import uuid
+
+from django.contrib.auth.forms import UserCreationForm
+from django.db.models.aggregates import Count, Sum
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.urls import reverse_lazy
+from django.views import generic
+
+from recsys.models import UserProductView
+from recsys.services import RecSysService, RecSysModel
+
 from .models import Product
 
 
@@ -16,17 +19,24 @@ def detail(request):
 
 
 def homepage(request):
-    # TODO: product data here
     products = Product.objects.all()
-    user = request.user
+    # join product and productView table, order by view count
+    most_viewed_products = Product.objects.values('id', 'name', 'image', 'price').annotate(view_count=Sum('userproductview__count')).filter(view_count__isnull=False).order_by('-view_count')[:3]
+     
+    for product in most_viewed_products:
+        product['get_image_url'] = product['image']
 
+    recommened_product_ids = RecSysModel.instance().top_item_by_rating(request.user.id)
+
+    recommended_products = Product.objects.filter(id__in=recommened_product_ids)
+
+    user = request.user
     context = {
         'products': products[:20],
-        'most_viewed': products[:3],
+        'most_viewed': most_viewed_products,
+        'recommended_products': recommended_products,
         'user': user
     }
-    print(user.id)
-
     return render(request, 'products/home.html', context)
 
 
@@ -48,10 +58,10 @@ def productDetail(request, num):
     user = request.user
     product = Product.objects.get(id=num)
 
-    print(user, product)
     if not product:
         return HttpResponse("Product not found")
-    RecSysService.increase_view_count(user, product)
+    if not user.is_anonymous:
+        RecSysService.increase_view_count(user, product)
 
     return render(request, 'products/product-detail.html', context)
 

@@ -52,6 +52,20 @@ Recommend System
             </div>
         </section>
     </div>
+    {% if recommended_products|length > 0 %}
+      <h3>Sản phẩm gợi ý cho bạn</h3>
+      <div class="content py-md-0 py-3">
+          <section id="products">
+              <div class="container py-3">
+                  <div class="row">
+                    {% for product in recommended_products %} 
+                      {% include "products/product-short.html" with product=product %} 
+                    {% endfor %}
+                  </div>
+              </div>
+          </section>
+      </div>
+    {% endif %}
     
     <h3>Các sản phẩm nổi bật</h3>
 

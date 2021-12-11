@@ -9,6 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         RecSysService.export_rating_to_csv()
+        RecSysService.export_view_to_csv()
 
         model = RecSysModel.instance()
         model.train()

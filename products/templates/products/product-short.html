@@ -28,6 +28,12 @@
         <div class="d-flex align-items-center justify-content-between pt-3">
             <div class="d-flex flex-column">
               <div class="h6 font-weight-bold">{{ product.price }} VNĐ</div>
+              <!-- show number of view for this product -->
+              {% if product.view_count %}
+                <div class="text-muted">
+                  <span class="fas fa-eye"></span> {{ product.view_count }}
+                </div>
+              {% endif %}
             </div>
             <div class="btn btn-primary">Buy now</div>
         </div>
