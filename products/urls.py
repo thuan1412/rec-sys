@@ -8,6 +8,8 @@ app_name = 'products'
 urlpatterns = [
     path('auth', views.detail, name='index'),
     path('', views.homepage, name='index'),
+    path('search', views.search, name='index'),
+    path('product/<int:id>/rating', views.rating, name='index'),
     path('<int:num>', views.productDetail, name='detail'),
     path('signup/', views.SignUpView.as_view(), name='signup')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

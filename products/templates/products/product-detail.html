@@ -59,7 +59,24 @@ Recommend System
                 <div class="about"> <span class="font-weight-bold text-capitalize">{{ product.name }}</span>
                   <h4 class="font-weight-bold">{{ product.price }} VND</h4>
                 </div>
-                <div class="buttons"> <button class="btn btn-outline-warning btn-long cart">Add to Cart</button> <button class="btn btn-warning btn-long buy">Buy it Now</button> <button class="btn btn-light wishlist"> <i class="fa fa-heart"></i> </button> </div>
+                <div class="buttons"> <button class="btn btn-outline-warning btn-long cart">Add to Cart</button> 
+                <form action="/product/{{ product.id }}/rating" method="POST" style="margin: 10px;margin-top: 20px;">
+                {% csrf_token %}
+                <h3>Đánh giá sản phẩm</h3>
+                        <div class="p-ratings">
+                            <input type="radio" name="rating" value="1" id="rating-1">
+                            <label for="rating-1">1</label>
+                            <input type="radio" name="rating" value="2" id="rating-2">
+                            <label for="rating-2">2</label>
+                            <input type="radio" name="rating" value="3" id="rating-3">
+                            <label for="rating-3">3</label>
+                            <input type="radio" name="rating" value="4" id="rating-4">
+                            <label for="rating-4">4</label>
+                            <input type="radio" name="rating" value="5" id="rating-5">
+                            <label for="rating-5">5</label>
+                        </div>
+                        <input type="submit" value="Đánh giá" class="btn btn-primary">
+                    </form>
                 <hr>
                 <div class="product-description">
                     <div class="mt-2"> <span class="font-weight-bold">Description</span>
@@ -75,33 +92,17 @@ Recommend System
                     </div>
                 </div>
             </div>
-            <div class="card mt-2"> <span>Similar items:</span>
+            <div class="card mt-2"> <span style="font-size: 20px;">Similar items:</span>
                 <div class="similar-products mt-2 d-flex flex-row">
-                    <div class="card border p-1" style="width: 9rem;margin-right: 3px;"> <img src="https://i.imgur.com/KZpuufK.jpg" class="card-img-top" alt="...">
+              {% for product in similarity_products %}
+                  <a href="" class="card border p-1" style="width: 9rem;">
+                    <img src="{{ product.get_image_url }}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h6 class="card-title">$1,999</h6>
+                          <h6 class="card-title">{{ product.price }}VNĐ</h6>
                         </div>
-                    </div>
-                    <div class="card border p-1" style="width: 9rem;margin-right: 3px;"> <img src="https://i.imgur.com/GwiUmQA.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="card-title">$1,699</h6>
-                        </div>
-                    </div>
-                    <div class="card border p-1" style="width: 9rem;margin-right: 3px;"> <img src="https://i.imgur.com/c9uUysL.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="card-title">$2,999</h6>
-                        </div>
-                    </div>
-                    <div class="card border p-1" style="width: 9rem;margin-right: 3px;"> <img src="https://i.imgur.com/kYWqL7k.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="card-title">$3,999</h6>
-                        </div>
-                    </div>
-                    <div class="card border p-1" style="width: 9rem;"> <img src="https://i.imgur.com/DhKkTrG.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="card-title">$999</h6>
-                        </div>
-                    </div>
+                        <h5 style="font-size: 16px;">{{ product.name }}</h5>
+                    </a>
+                {% endfor %}
                 </div>
             </div>
         </div>

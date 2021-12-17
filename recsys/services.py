@@ -80,7 +80,6 @@ def get_top_n(predictions, n=10):
     top_n = defaultdict(list)
     for uid, iid, true_r, est, _ in predictions:
         top_n[uid].append((iid, est))
-
     # Then sort the predictions for each user and retrieve the k highest ones.
     for uid, user_ratings in top_n.items():
         user_ratings.sort(key=lambda x: x[1], reverse=True)
@@ -111,14 +110,17 @@ class RecSysModel:
             line_format="user item rating", sep=',', skip_lines=1)
         data = Dataset.load_from_file(rating_file, rating_reader)
         rating_training_set = data.build_full_trainset()
-        rating_algo = KNNBasic()
-        rating_algo.fit(rating_training_set)
+        sim_options = {'name': 'pearson_baseline', 'user_based': False}
+        self.rating_algo = KNNBasic(sim_options=sim_options)
+        self.rating_algo.fit(rating_training_set)
 
         # predict rating for all pairs (u, i) that are NOT in the training set
         rating_test_set = rating_training_set.build_anti_testset()
-        self.predictions = rating_algo.test(rating_test_set)
+        print(rating_training_set.all_users())
+        self.predictions = self.rating_algo.test(rating_test_set)
         # top 10 item
         self.top_n = get_top_n(self.predictions, 10)
+        print(self.top_n)
 
     # train by viewing
     def train_by_view(self):
@@ -131,7 +133,20 @@ class RecSysModel:
         """
         return top-10 recommendations for user `user_id`
         """
-        user_id = str(user_id)
-        if not self.top_n and not self.top_n.get(user_id):
+        try:
+            if not self.top_n and not self.top_n.get(str(user_id)):
+                return []
+            return list(map(lambda x: int(x[0]), self.top_n[str(user_id)]))
+        except Exception as e:
             return []
-        return list(map(lambda x: int(x[0]), self.top_n[user_id]))
+
+    def related_items(self, item_id):
+        """
+        return related items for item `item_id`
+        """
+        try:
+            item_id = self.rating_algo.trainset.to_inner_iid(str(item_id))
+            inner_ids = self.rating_algo.get_neighbors(item_id, k=5)
+            return list(map(lambda x: self.rating_algo.trainset.to_raw_iid(x), inner_ids))
+        except Exception as e:
+            return []

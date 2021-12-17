@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% block style %}
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'products/home.css' %}"
+  />
+  <script src="{% static 'products/home.js' %}"></script>
+  {% endblock %}
+  <title>Recommend System</title>
+</head>
+
+{% block title %}
+Recommend System
+{% endblock %}
+
+{% block content %}
+  <div class="container">
+      <!-- <div class="d-sm-flex align-items-sm-center pt-2 clear"> -->
+      <!--     <div class="text-muted filter-label">Applied Filters:</div> -->
+      <!--     <div class="green-label font-weight-bold p-0 px-1 mx-sm-1 mx-0 my-sm-0 my-2">Selected Filtre <span class=" px-1 close">&times;</span> </div> -->
+      <!--     <div class="green-label font-weight-bold p-0 px-1 mx-sm-1 mx-0">Selected Filtre <span class=" px-1 close">&times;</span> </div> -->
+      <!-- </div> -->
+      <div class="filters my-3"> <button class="btn btn-success" type="button" data-toggle="collapse" data-target="#mobile-filter" aria-expanded="true" aria-controls="mobile-filter">Filter<span class="px-1 fas fa-filter"></span></button> </div>
+    {% if products %}
+
+    <h3>Kết quả tìm kiếm</h3>
+
+        <div class="content py-md-0 py-3">
+            <section id="products">
+                <div class="container py-3">
+                    <div class="row">
+                      {% for product in products %} 
+                        {% include "products/product-short.html" with product=product %} 
+                      {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    {% else %}
+    <p>No products are available.</p>
+    {% endif %}
+  </div>
+{% endblock %}
+

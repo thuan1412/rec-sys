@@ -3,11 +3,12 @@ import uuid
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models.aggregates import Count, Sum
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.http.response import JsonResponse
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
 
-from recsys.models import UserProductView
+from recsys.models import ProductRating, UserProductView
 from recsys.services import RecSysService, RecSysModel
 
 from .models import Product
@@ -26,9 +27,12 @@ def homepage(request):
     for product in most_viewed_products:
         product['get_image_url'] = product['image']
 
-    recommened_product_ids = RecSysModel.instance().top_item_by_rating(request.user.id)
+    if request.user.is_authenticated:
+        recommended_product_ids = RecSysModel.instance().top_item_by_rating(request.user.id)
 
-    recommended_products = Product.objects.filter(id__in=recommened_product_ids)
+        recommended_products = Product.objects.filter(id__in=recommended_product_ids)
+    else:
+        recommended_products = []
 
     user = request.user
     context = {
@@ -42,12 +46,12 @@ def homepage(request):
 
 def productDetail(request, num):
     product = Product.objects.get(id=num)
-    context = {
-        'product': product
-    }
 
     session = request.session
     rec_session_id = None
+
+    similarity_product_ids = RecSysModel.instance().related_items(num)[:4]
+    similarity_products = Product.objects.filter(id__in=similarity_product_ids)
 
     try:
         rec_session_id = session['rec_session_id']
@@ -63,8 +67,55 @@ def productDetail(request, num):
     if not user.is_anonymous:
         RecSysService.increase_view_count(user, product)
 
+    context = {
+        'product': product,
+        'similarity_products': similarity_products,
+    }
     return render(request, 'products/product-detail.html', context)
 
+def search(request):
+    query = request.GET.get('q')
+    products = Product.objects.filter(name__icontains=query)
+    context = {
+        'query': query,
+        'products': products
+    }
+    return render(request, 'products/search.html', context)
+
+
+def rating(request, id):
+    product_id = id
+    rating = request.POST.get('rating') 
+    user = request.user
+    user_id = user.id
+
+    product = Product.objects.get(id=product_id)
+
+    if  user:
+        rating_record = ProductRating.objects.filter(
+            product_id=product_id,
+            user_id=user_id
+        ).first()
+        if rating_record:
+            rating_record.rating = rating
+            rating_record.save()
+        else:
+            ProductRating.objects.create(
+                product_id=product,
+                user_id=user,
+                rating=rating
+            )
+    else:
+        rating_record = ProductRating.objects.filter(
+            product_id=product_id,
+            user_id=user_id
+        ).first()
+        ProductRating.objects.create(
+            product_id=product,
+            user_id=user,
+            rating=rating
+        )
+    return redirect(f"/{product_id}")
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
