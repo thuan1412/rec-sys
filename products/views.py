@@ -20,15 +20,21 @@ def detail(request):
 
 
 def homepage(request):
-    products = Product.objects.all()
+    product_count = Product.objects.all().count()
     # join product and productView table, order by view count
-    most_viewed_products = Product.objects.values('id', 'name', 'image', 'price').annotate(view_count=Sum('userproductview__count')).filter(view_count__isnull=False).order_by('-view_count')[:3]
+    most_viewed_products = Product.objects.values('id', 'name', 'image', 'price').annotate(view_count=Sum('userproductview__count')).filter(view_count__isnull=False).order_by('-view_count')[:4]
+    page = request.GET.get('page') or '1'
+    page = int(page)
+    page_size = request.GET.get('page_size') or '20'
+    page_size = int(page_size)
+    products = Product.objects.all()[(page-1)*page_size:page*page_size]
+    total_pages = int(product_count/page_size) + 1
      
     for product in most_viewed_products:
         product['get_image_url'] = product['image']
 
     if request.user.is_authenticated:
-        recommended_product_ids = RecSysModel.instance().top_item_by_rating(request.user.id)
+        recommended_product_ids = RecSysModel.instance().top_item_by_rating(request.user.id)[:4]
 
         recommended_products = Product.objects.filter(id__in=recommended_product_ids)
     else:
@@ -37,6 +43,10 @@ def homepage(request):
     user = request.user
     context = {
         'products': products[:20],
+        'page': page,
+        'total_pages': total_pages,
+        'product_count': product_count,
+        'page_range': range(1, total_pages+1),
         'most_viewed': most_viewed_products,
         'recommended_products': recommended_products,
         'user': user

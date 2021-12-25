@@ -9,7 +9,7 @@ class Command(BaseCommand):
     help = "Load data from tgdd.csv to product tables"
 
     def handle(self, *args, **options):
-        with open('data/thegioididong.csv', encoding='utf-8') as f:
+        with open('data/tgdd.csv', encoding='utf-8') as f:
             reader = DictReader(f)
             for row in reader:
                 price = re.sub('\D', '', row['price'])

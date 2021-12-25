@@ -24,14 +24,14 @@ Recommend System
   <div class="container">
 
     <div class="wrapper">
-      <div class="d-lg-flex align-items-lg-center pt-2">
-        <select name="country" id="country" class="bg-light">
-          <option value="" hidden>Hãng</option>
-          <option value="iphone">IPhone</option>
-          <option value="samsung">Samsung</option>
-          <option value="nokia">Nokia</option>
-        </select>
-      </div>
+      <!-- <div class="d-lg-flex align-items-lg-center pt-2"> -->
+      <!--   <select name="country" id="country" class="bg-light"> -->
+      <!--     <option value="" hidden>Hãng</option> -->
+      <!--     <option value="iphone">IPhone</option> -->
+      <!--     <option value="samsung">Samsung</option> -->
+      <!--     <option value="nokia">Nokia</option> -->
+      <!--   </select> -->
+      <!-- </div> -->
       <!-- <div class="d-sm-flex align-items-sm-center pt-2 clear"> -->
       <!--     <div class="text-muted filter-label">Applied Filters:</div> -->
       <!--     <div class="green-label font-weight-bold p-0 px-1 mx-sm-1 mx-0 my-sm-0 my-2">Selected Filtre <span class=" px-1 close">&times;</span> </div> -->
@@ -53,6 +53,7 @@ Recommend System
         </section>
     </div>
     {% if recommended_products|length > 0 %}
+
       <h3>Sản phẩm gợi ý cho bạn</h3>
       <div class="content py-md-0 py-3">
           <section id="products">
@@ -69,6 +70,21 @@ Recommend System
     
     <h3>Các sản phẩm nổi bật</h3>
 
+    <div class="pagination">
+      {% if page != 1 %}
+        <a href="?page={{page|add:"-1"}}">&laquo;</a>
+      {% endif %}
+      {% for i in page_range %}
+        {% if i == page %}
+          <a class="active" href="?page={{i}}">{{i}}</a>
+        {% else %}
+          <a href="?page={{i}}">{{i}}</a>
+        {% endif %}
+      {% endfor %}
+      {% if page != total_pages %}
+        <a href="?page={{page|add:"+1"}}">&raquo;</a>
+      {% endif %}
+    </div>
         <div class="content py-md-0 py-3">
             <section id="products">
                 <div class="container py-3">
@@ -80,6 +96,21 @@ Recommend System
                 </div>
             </section>
         </div>
+    </div>
+    <div class="pagination">
+      {% if page != 1 %}
+        <a href="?page={{page|add:"-1"}}">&laquo;</a>
+      {% endif %}
+      {% for i in page_range %}
+        {% if i == page %}
+          <a class="active" href="?page={{i}}">{{i}}</a>
+        {% else %}
+          <a href="?page={{i}}">{{i}}</a>
+        {% endif %}
+      {% endfor %}
+      {% if page != total_pages %}
+        <a href="?page={{page|add:"+1"}}">&raquo;</a>
+      {% endif %}
     </div>
     {% else %}
     <p>No products are available.</p>
