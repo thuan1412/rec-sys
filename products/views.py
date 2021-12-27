@@ -62,6 +62,7 @@ def productDetail(request, num):
 
     similarity_product_ids = RecSysModel.instance().related_items(num)[:4]
     similarity_products = Product.objects.filter(id__in=similarity_product_ids)
+    # print(len(similarity_products))
 
     try:
         rec_session_id = session['rec_session_id']
@@ -77,9 +78,20 @@ def productDetail(request, num):
     if not user.is_anonymous:
         RecSysService.increase_view_count(user, product)
 
+    # get rating of this product
+    rating = None
+    if not user.is_anonymous:
+        rating = ProductRating.objects.filter(
+            product_id=product,
+            user_id=user
+        ).first()
+        if rating:
+            rating = rating.rating
+
     context = {
         'product': product,
         'similarity_products': similarity_products,
+        'rating': rating,
     }
     return render(request, 'products/product-detail.html', context)
 

@@ -105,7 +105,8 @@ class RecSysModel:
 
     # train by rating
     def train(self):
-        rating_file = "views.csv"
+        RecSysService.export_rating_to_csv()
+        rating_file = "ratings.csv"
         rating_reader = Reader(
             line_format="user item rating", sep=',', skip_lines=1)
         data = Dataset.load_from_file(rating_file, rating_reader)
