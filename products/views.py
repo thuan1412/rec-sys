@@ -1,7 +1,7 @@
 import uuid
 
 from django.contrib.auth.forms import UserCreationForm
-from django.db.models.aggregates import Count, Sum
+from django.db.models.aggregates import Avg, Count, Sum
 from django.http import HttpResponse
 from django.http.response import JsonResponse
 from django.shortcuts import redirect, render
@@ -62,6 +62,9 @@ def productDetail(request, num):
 
     similarity_product_ids = RecSysModel.instance().related_items(num)[:4]
     similarity_products = Product.objects.filter(id__in=similarity_product_ids)
+    avg_rating = ProductRating.objects.filter(product_id=product.id).aggregate(Avg('rating'))['rating__avg']
+    if avg_rating is None:
+        avg_rating = 0
     # print(len(similarity_products))
 
     try:
@@ -92,6 +95,7 @@ def productDetail(request, num):
         'product': product,
         'similarity_products': similarity_products,
         'rating': rating,
+        'avg_rating': avg_rating,
     }
     return render(request, 'products/product-detail.html', context)
 

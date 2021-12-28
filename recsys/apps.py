@@ -19,12 +19,12 @@ class RecsysConfig(AppConfig):
 
         model.train()
         def train_model():
-            print('train model')
             model.train()
 
         schedule.every().minutes.do(train_model)
         def run_schedule():
             while True:
+                # app current timestamp to ./tmp/schedule.log
                 schedule.run_pending()
                 time.sleep(1)
         threading.Thread(target=run_schedule).start()
